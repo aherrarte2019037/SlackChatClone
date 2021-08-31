@@ -46,7 +46,7 @@ export const MentionsScreen = props => {
           backgroundColor: colors.background,
         },
       ]}>
-      <ScreenHeader title="Mentions" />
+      <ScreenHeader title="Menciones" />
 
       {loadingResults && (
         <View style={styles.loadingIndicatorContainer}>

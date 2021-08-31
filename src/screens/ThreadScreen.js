@@ -79,7 +79,7 @@ export function ThreadScreen({
       }}>
       <View style={styles.channelScreenContainer}>
         <ModalScreenHeader
-          title={'Thread'}
+          title={'Hilo'}
           goBack={goBack}
           subTitle={truncate(getChannelDisplayName(channel, true), 35)}
         />

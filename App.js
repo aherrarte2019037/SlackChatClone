@@ -11,7 +11,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
+import { ChannelSearchScreen } from './src/screens/ChannelSearchScreen';
 import { BottomTabs } from './src/components/BottomTabs';
 import { DarkTheme, LightTheme } from './src/appTheme';
 
@@ -24,12 +24,16 @@ import {
   USERS,
 } from './src/utils';
 
+
+import { NewMessageScreen } from './src/screens/NewMessageScreen';
 import { ChannelListScreen } from './src/screens/ChannelListScreen';
 import { DirectMessagesScreen } from './src/screens/DirectMessagesScreen';
 import { MentionsScreen } from './src/screens/MentionsSearch';
 import { ProfileScreen } from './src/screens/ProfileScreen';
 import { ChannelScreen } from './src/screens/ChannelScreen';
 import { ThreadScreen } from './src/screens/ThreadScreen';
+import { MessageSearchScreen } from './src/screens/MessageSearchScreen';
+import { TargettedMessageChannelScreen } from './src/screens/TargettedMessageChannelScreen';
 
 LogBox.ignoreAllLogs(true);
 
@@ -53,7 +57,7 @@ export default () => {
         timeout: 10000,
       });
 
-      await client.setUser(user, USER_TOKENS[user.id]);
+      await client.connectUser(user, USER_TOKENS[user.id]);
       // We are going to store chatClient in following ChatClientService, so that it can be
       // accessed in other places. Ideally one would store client in a context provider, so that
       // component can re-render if client is updated. But in our case, client only gets updated
@@ -99,7 +103,6 @@ export default () => {
   );
 };
 
-
 const ModalStackNavigator = props => {
   return (
     <ModalStack.Navigator initialRouteName="Home" mode="modal">
@@ -110,22 +113,22 @@ const ModalStackNavigator = props => {
       />
       <ModalStack.Screen
         name="NewMessageScreen"
-        component={TabNavigation}
+        component={NewMessageScreen}
         options={{ headerShown: false }}
       />
       <ModalStack.Screen
         name="ChannelSearchScreen"
-        component={TabNavigation}
+        component={ChannelSearchScreen}
         options={{ headerShown: false }}
       />
       <ModalStack.Screen
         name="MessageSearchScreen"
-        component={TabNavigation}
+        component={MessageSearchScreen}
         options={{ headerShown: false }}
       />
       <ModalStack.Screen
         name="TargettedMessageChannelScreen"
-        component={TabNavigation}
+        component={TargettedMessageChannelScreen}
         options={{ headerShown: false }}
       />
     </ModalStack.Navigator>

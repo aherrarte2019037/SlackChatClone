@@ -15,13 +15,13 @@ export const BottomTabs = ({state, navigation}) => {
         return {
           icon: <SVGIcon type="home-tab" width={25} height={25} />,
           iconActive: <SVGIcon type="home-tab-active" width={25} height={25} />,
-          title: 'Home',
+          title: 'Inicio',
         };
       case 'dms':
         return {
           icon: <SVGIcon type="dm-tab" width={25} height={25} />,
           iconActive: <SVGIcon type="dm-tab-active" width={25} height={25} />,
-          title: 'DMs',
+          title: 'Mensaje',
         };
       case 'mentions':
         return {
@@ -29,13 +29,13 @@ export const BottomTabs = ({state, navigation}) => {
           iconActive: (
             <SVGIcon type="mentions-tab-active" width={25} height={25} />
           ),
-          title: 'Mention',
+          title: 'Menciones',
         };
       case 'you':
         return {
           icon: <SVGIcon type="you-tab" width={25} height={25} />,
           iconActive: <SVGIcon type="you-tab-active" width={25} height={25} />,
-          title: 'You',
+          title: 'Perfil',
         };
     }
   };

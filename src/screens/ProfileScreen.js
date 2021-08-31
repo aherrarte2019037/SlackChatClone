@@ -15,7 +15,7 @@ export const ProfileScreen = (props) => {
         backgroundColor: colors.background,
       }}>
       <View style={{flex: 1}}>
-        <ScreenHeader navigation={props.navigation} title="You" />
+        <ScreenHeader navigation={props.navigation} title="Perfil" />
       </View>
     </View>
   );

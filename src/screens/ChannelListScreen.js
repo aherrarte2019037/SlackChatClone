@@ -18,7 +18,7 @@ export const ChannelListScreen = () => {
             backgroundColor: colors.background,
           },
         ]}>
-        <ScreenHeader title="getstream" showLogo />
+        <ScreenHeader title="Slack Clone" showLogo />
       </View>
       <NewMessageBubble />
     </>

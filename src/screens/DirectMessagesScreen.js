@@ -11,7 +11,7 @@ export const DirectMessagesScreen = (props) => {
 
   return (
     <View style={[styles.container, {backgroundColor: colors.background}]}>
-      <ScreenHeader title="Direct Messages" />
+      <ScreenHeader title="Mensajes Directos" />
       <NewMessageBubble />
     </View>
   );
