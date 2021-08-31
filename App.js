@@ -1,112 +1,100 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
-import React from 'react';
-import type {Node} from 'react';
+import React, { useEffect, useState } from 'react';
+import { View, SafeAreaView, StyleSheet } from 'react-native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { NavigationContainer } from '@react-navigation/native';
+import { ChannelList } from './src/components/ChannelList';
+import { StreamChat } from 'stream-chat';
+import {ChannelHeader} from './src/components/ChannelHeader';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+  Chat,
+  MessageList,
+  MessageInput,
+  Channel,
+} from 'stream-chat-react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const chatClient = new StreamChat('q95x9hkbyd6p');
+const userToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidmlzaGFsIn0.LpDqH6U8V8Qg9sqGjz0bMQvOfWrWKAjPKqeODYM0Elk';
+const user = { id: 'vishal', name: 'Vishal' };
 
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
+chatClient.connectUser(user, userToken);
 
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+function ChannelScreen({navigation, route}) {
+  const [channel, setChannel] = useState(null);
+  useEffect(() => {
+    if (!channel) {
+      navigation.openDrawer();
+    }
+    const channelId = route.params ? route.params.channelId : null;
+    const _channel = chatClient.channel('messaging', channelId);
+    setChannel(_channel);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [route.params]);
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+    <SafeAreaView style={styles.channelScreenSaveAreaView}>
+      <View style={styles.channelScreenContainer}>
+        <ChannelHeader
+          navigation={navigation}
+          channel={channel}
+          client={chatClient}
+        />
+        <View style={styles.chatContainer}>
+          <Chat client={chatClient}>
+            <Channel channel={channel}>
+              <MessageList />
+              <MessageInput />
+            </Channel>
+          </Chat>
         </View>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
+}
+
+const ChannelListDrawer = props => {
+  return (
+    <ChannelList
+      client={chatClient}
+      changeChannel={channelId => {
+        props.navigation.jumpTo('ChannelScreen', {
+          channelId,
+        });
+      }}
+    />
+  );
 };
 
+const Drawer = createDrawerNavigator();
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <View style={styles.container}>
+        <Drawer.Navigator
+          drawerContent={ChannelListDrawer}
+          drawerStyle={styles.drawerNavigator}>
+          <Drawer.Screen name="ChannelScreen" component={ChannelScreen} />
+        </Drawer.Navigator>
+      </View>
+    </NavigationContainer>
+  );
+}
+
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  channelScreenSaveAreaView: {
+    backgroundColor: 'white',
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  channelScreenContainer: { flexDirection: 'column', height: '100%' },
+  container: {
+    flex: 1,
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  drawerNavigator: {
+    backgroundColor: '#3F0E40',
+    width: 350,
   },
-  highlight: {
-    fontWeight: '700',
+  chatContainer: {
+    backgroundColor: 'white',
+    flexGrow: 1,
+    flexShrink: 1,
   },
 });
-
-export default App;
