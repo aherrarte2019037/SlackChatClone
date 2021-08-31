@@ -5,6 +5,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { ChannelList } from './src/components/ChannelList';
 import { StreamChat } from 'stream-chat';
 import {ChannelHeader} from './src/components/ChannelHeader';
+import {DateSeparator} from './src/components/DateSeparator';
+import {MessageSlack} from './src/components/MessageSlack';
 import {
   Chat,
   MessageList,
@@ -41,7 +43,10 @@ function ChannelScreen({navigation, route}) {
         <View style={styles.chatContainer}>
           <Chat client={chatClient}>
             <Channel channel={channel}>
-              <MessageList />
+              <MessageList
+                Message={MessageSlack}
+                DateSeparator={DateSeparator}
+              />
               <MessageInput />
             </Channel>
           </Chat>
