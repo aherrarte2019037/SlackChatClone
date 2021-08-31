@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   View,
@@ -6,16 +6,16 @@ import {
   SafeAreaView,
   LogBox,
 } from 'react-native';
-import {AppearanceProvider, useColorScheme} from 'react-native-appearance';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { AppearanceProvider, useColorScheme } from 'react-native-appearance';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import {BottomTabs} from './src/components/BottomTabs';
-import {DarkTheme, LightTheme} from './src/appTheme';
+import { BottomTabs } from './src/components/BottomTabs';
+import { DarkTheme, LightTheme } from './src/appTheme';
 
-import {StreamChat} from 'stream-chat';
+import { StreamChat } from 'stream-chat';
 
 import {
   ChatUserContext,
@@ -24,10 +24,11 @@ import {
   USERS,
 } from './src/utils';
 
-import {ChannelListScreen} from './src/screens/ChannelListScreen';
-import {DirectMessagesScreen} from './src/screens/DirectMessagesScreen';
-import {MentionsScreen} from './src/screens/MentionsSearch';
-import {ProfileScreen} from './src/screens/ProfileScreen';
+import { ChannelListScreen } from './src/screens/ChannelListScreen';
+import { DirectMessagesScreen } from './src/screens/DirectMessagesScreen';
+import { MentionsScreen } from './src/screens/MentionsSearch';
+import { ProfileScreen } from './src/screens/ProfileScreen';
+import {ChannelScreen} from './src/screens/ChannelScreen';
 
 LogBox.ignoreAllLogs(true);
 
@@ -52,7 +53,6 @@ export default () => {
       });
 
       await client.setUser(user, USER_TOKENS[user.id]);
-
       // We are going to store chatClient in following ChatClientService, so that it can be
       // accessed in other places. Ideally one would store client in a context provider, so that
       // component can re-render if client is updated. But in our case, client only gets updated
@@ -98,33 +98,34 @@ export default () => {
   );
 };
 
-const ModalStackNavigator = (props) => {
+
+const ModalStackNavigator = props => {
   return (
     <ModalStack.Navigator initialRouteName="Home" mode="modal">
       <ModalStack.Screen
         name="Tabs"
         component={TabNavigation}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
       <ModalStack.Screen
         name="NewMessageScreen"
-        component={() => null /* NewMessageScreen */}
-        options={{headerShown: false}}
+        component={TabNavigation}
+        options={{ headerShown: false }}
       />
       <ModalStack.Screen
         name="ChannelSearchScreen"
-        component={() => null /* ChannelSearchScreen */}
-        options={{headerShown: false}}
+        component={TabNavigation}
+        options={{ headerShown: false }}
       />
       <ModalStack.Screen
         name="MessageSearchScreen"
-        component={() => null /* MessageSearchScreen */}
-        options={{headerShown: false}}
+        component={TabNavigation}
+        options={{ headerShown: false }}
       />
       <ModalStack.Screen
         name="TargettedMessageChannelScreen"
-        component={() => null /* TargettedMessageChannelScreen */}
-        options={{headerShown: false}}
+        component={TabNavigation}
+        options={{ headerShown: false }}
       />
     </ModalStack.Navigator>
   );
@@ -136,31 +137,30 @@ const HomeStackNavigator = props => {
       <HomeStack.Screen
         name="ModalStack"
         component={ModalStackNavigator}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
       <HomeStack.Screen
         name="ChannelScreen"
-        component={() => null /* ChannelScreen */}
-        options={{headerShown: false}}
+        component={ChannelScreen}
+        options={{ headerShown: false }}
       />
       <HomeStack.Screen
         name="DraftsScreen"
-        component={() => null /* DraftsScreen */}
-        options={{headerShown: false}}
+        component={ModalStackNavigator}
+        options={{ headerShown: false }}
       />
       <HomeStack.Screen
         name="ThreadScreen"
-        component={() => null /* ThreadScreen */}
-        options={{headerShown: false}}
+        component={ModalStackNavigator}
+        options={{ headerShown: false }}
       />
     </HomeStack.Navigator>
   );
 };
 
-
 const TabNavigation = () => {
   return (
-    <Tab.Navigator tabBar={(props) => <BottomTabs {...props} />}>
+    <Tab.Navigator tabBar={props => <BottomTabs {...props} />}>
       <Tab.Screen name="home" component={ChannelListScreen} />
       <Tab.Screen name={'dms'} component={DirectMessagesScreen} />
       <Tab.Screen name={'mentions'} component={MentionsScreen} />
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
   channelScreenSaveAreaView: {
     backgroundColor: 'white',
   },
-  channelScreenContainer: {flexDirection: 'column', height: '100%'},
+  channelScreenContainer: { flexDirection: 'column', height: '100%' },
   container: {
     flex: 1,
     backgroundColor: 'white',
