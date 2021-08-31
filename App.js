@@ -28,7 +28,8 @@ import { ChannelListScreen } from './src/screens/ChannelListScreen';
 import { DirectMessagesScreen } from './src/screens/DirectMessagesScreen';
 import { MentionsScreen } from './src/screens/MentionsSearch';
 import { ProfileScreen } from './src/screens/ProfileScreen';
-import {ChannelScreen} from './src/screens/ChannelScreen';
+import { ChannelScreen } from './src/screens/ChannelScreen';
+import { ThreadScreen } from './src/screens/ThreadScreen';
 
 LogBox.ignoreAllLogs(true);
 
@@ -151,7 +152,7 @@ const HomeStackNavigator = props => {
       />
       <HomeStack.Screen
         name="ThreadScreen"
-        component={ModalStackNavigator}
+        component={ThreadScreen}
         options={{ headerShown: false }}
       />
     </HomeStack.Navigator>
